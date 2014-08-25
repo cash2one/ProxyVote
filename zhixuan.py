@@ -1,5 +1,5 @@
 #coding: utf-8
-import requests, datetime, time, Queue, gevent, random, ConfigParser, random
+import requests, datetime, time, Queue, gevent, random, ConfigParser, random, datetime
 from urllib import quote
 from pyquery import PyQuery as pq
 
@@ -8,19 +8,21 @@ gevent.monkey.patch_socket()
 
 class ProxyVote(object):
     
-    def __init__(self, name, target_count, vote_url, proxy_urls, flag):
+    def __init__(self, name, target_count, vote_url, proxy_urls, flag, total_hour):
         '''
         '''
         self.name = name
-        self.target_count = random.randint(750, 1300) # target_count
+        self.target_count = random.randint(850, 1400) # target_count
         self.vote_url = vote_url
         self.proxy_urls = proxy_urls
         self.flag = flag
+        self.total_hour = total_hour
         
         self.proxies = []
         self.total = 0
         self.success = 0
         self.fail = 0
+        self.start_time = datetime.datetime.now()
     
     
     def get_proxies(self):
@@ -144,8 +146,9 @@ class ProxyVote(object):
         print u'-------------------开始处理[ %s ]的投票-------------------' % self.name
         gevent.sleep(random.randint(10, 200))
         # 循环开始投票
-        while self.success < self.target_count:
-            self.vote()
+        while (datetime.datetime.now() - self.start_time).total_seconds() < self.total_hour*3600:
+            if self.success < self.target_count:
+                self.vote()
         
         print u'[ %s ]的投票结果: 成功 [ %s ], 失败 [ %s ], 总次数[ %s ]' % (self.name, self.success, self.fail, self.total)
         print u'-------------------处理[ %s ]的投票结束-------------------' % self.name
@@ -173,7 +176,8 @@ if __name__ == "__main__":
                     int(config.get(section, "total_count")),
                     config.get(section, "vote_url").replace('TIME', str(random.randrange(1000000, 9999999))),
                     config.get(section, "proxy_urls").split('|'),
-                    config.get(section, "success_flag")
+                    config.get(section, "success_flag"),
+                    int(config.get(section, "total_hour"))
                 ).start
             )
         )
