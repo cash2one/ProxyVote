@@ -54,7 +54,7 @@ class ProxyVote(object):
             except Exception, e:
                 print e
         
-        print u"[ %s ]抓取到[ %s ]个代理" % (self.name, len(self.proxies))
+        print (u"[ %s ]抓取到[ %s ]个代理" % (self.name, len(self.proxies))).encode('utf-8')
     
     
     def vote_log(self, proxy, flag):
@@ -63,11 +63,11 @@ class ProxyVote(object):
         
         if flag:
             self.success += 1
-            print u"\033[1;32;40m [ %s - %s - %s - %s ]使用[ %s ]代理%s \033[0m" % (self.name, self.success, self.fail, self.total, proxy, msg)
+            print (u"\033[1;32;40m [ %s - %s - %s - %s ]使用[ %s ]代理%s \033[0m" % (self.name, self.success, self.fail, self.total, proxy, msg)).encode('utf-8')
         else:
             self.fail += 1
             msg = u"失败"
-            print u"\033[1;31;40m [ %s - %s - %s - %s ]使用[ %s ]代理%s \033[0m" % (self.name, self.success, self.fail, self.total, proxy, msg)
+            print (u"\033[1;31;40m [ %s - %s - %s - %s ]使用[ %s ]代理%s \033[0m" % (self.name, self.success, self.fail, self.total, proxy, msg)).encode('utf-8')
         
     
     
@@ -135,15 +135,15 @@ class ProxyVote(object):
         
         for proxy in self.proxies:
             if self._vote(proxy):
-                print u'追加一次'
+                print u'追加一次'.encode('utf-8')
                 if self._vote(proxy):
-                    print u'再追加一次'
+                    print u'再追加一次'.encode('utf-8')
                 
     
     def start(self):
         '''
         '''
-        print u'-------------------开始处理[ %s ]的投票-------------------' % self.name
+        print (u'-------------------开始处理[ %s ]的投票-------------------' % self.name).encode('utf-8')
         gevent.sleep(random.randint(10, 20))
         # 循环开始投票
         while (datetime.datetime.now() - self.start_time).total_seconds() < self.total_hour*3600:
@@ -152,8 +152,8 @@ class ProxyVote(object):
             else:
                 break
         
-        print u'[ %s ]的投票结果: 成功 [ %s ], 失败 [ %s ], 总次数[ %s ]' % (self.name, self.success, self.fail, self.total)
-        print u'-------------------处理[ %s ]的投票结束-------------------' % self.name
+        print (u'[ %s ]的投票结果: 成功 [ %s ], 失败 [ %s ], 总次数[ %s ]' % (self.name, self.success, self.fail, self.total)).encode('utf-8')
+        print (u'-------------------处理[ %s ]的投票结束-------------------' % self.name).encode('utf-8')
     
     
     
@@ -163,7 +163,7 @@ class ProxyVote(object):
         
 if __name__ == "__main__":
 
-    print u'开始...'
+    print u'开始...'.encode('utf-8')
 
     config = ConfigParser.SafeConfigParser()
     config.read("andaike.ini")
