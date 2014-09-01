@@ -12,7 +12,7 @@ class ProxyVote(object):
         '''
         '''
         self.name = name
-        self.target_count = random.randint(850, 1400) # target_count
+        self.target_count = target_count
         self.vote_url = vote_url
         self.proxy_urls = proxy_urls
         self.flag = flag
@@ -144,7 +144,7 @@ class ProxyVote(object):
         '''
         '''
         print u'-------------------开始处理[ %s ]的投票-------------------' % self.name
-        gevent.sleep(random.randint(10, 200))
+        gevent.sleep(random.randint(10, 20))
         # 循环开始投票
         while (datetime.datetime.now() - self.start_time).total_seconds() < self.total_hour*3600:
             if self.success < self.target_count:
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     print u'开始...'
 
     config = ConfigParser.SafeConfigParser()
-    config.read("zhixuan.ini")
+    config.read("andaike.ini")
         
     threads = []
     for section in config.sections():
