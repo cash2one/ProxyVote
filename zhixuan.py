@@ -147,6 +147,7 @@ class ProxyVote(object):
         gevent.sleep(random.randint(10, 200))
         # 循环开始投票
         while (datetime.datetime.now() - self.start_time).total_seconds() < self.total_hour*3600:
+            time.sleep(0.1)
             if self.success < self.target_count:
                 self.vote()
             else:
