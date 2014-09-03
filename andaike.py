@@ -167,13 +167,8 @@ if __name__ == "__main__":
     print u'开始...'.encode('utf-8')
 
     config = ConfigParser.SafeConfigParser()
-    
-    try:
-        config.read("andaike.ini")
-    except Exception, e:
-        print e
-        config.read("/var/www/ProxyVote/andaike.ini")
-        
+    config.read("andaike.ini")
+
     threads = []
     for section in config.sections():
         
