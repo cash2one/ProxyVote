@@ -191,7 +191,7 @@ if __name__ == "__main__":
         pool.join()
     except Exception, e:
         import traceback
-        traceback.print_exc()
+        print traceback.print_exc()
     
     
     
