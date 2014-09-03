@@ -172,23 +172,25 @@ def go_vote(data):
 if __name__ == "__main__":
 
     print u'开始...'.encode('utf-8')
-
-    config = ConfigParser.SafeConfigParser()
-    config.read("andaike.ini")
-
-    pool = ThreadPool(len(config.sections()))
-    
-    pool.map(go_vote, [[
-            section.decode('utf-8'), 
-            int(config.get(section, "total_count")),
-            config.get(section, "vote_url").replace('TIME', str(random.randrange(1000000, 9999999))),
-            config.get(section, "proxy_urls").split('|'),
-            config.get(section, "success_flag"),
-            int(config.get(section, "total_hour"))
-        ] for section in config.sections()
-    ])
-    pool.close()
-    pool.join()
+    try:
+        config = ConfigParser.SafeConfigParser()
+        config.read("andaike.ini")
+        print u'加载配置文件完毕'.encode('utf-8')
+        pool = ThreadPool(len(config.sections()))
+        
+        pool.map(go_vote, [[
+                section.decode('utf-8'), 
+                int(config.get(section, "total_count")),
+                config.get(section, "vote_url").replace('TIME', str(random.randrange(1000000, 9999999))),
+                config.get(section, "proxy_urls").split('|'),
+                config.get(section, "success_flag"),
+                int(config.get(section, "total_hour"))
+            ] for section in config.sections()
+        ])
+        pool.close()
+        pool.join()
+    except Exception, e:
+        print e
     
     
     
