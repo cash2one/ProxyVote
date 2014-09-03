@@ -190,7 +190,8 @@ if __name__ == "__main__":
         pool.close()
         pool.join()
     except Exception, e:
-        print e
+        import traceback
+        traceback.print_exc()
     
     
     
