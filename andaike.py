@@ -166,26 +166,32 @@ if __name__ == "__main__":
 
     print u'开始...'.encode('utf-8')
 
-    config = ConfigParser.SafeConfigParser()
-    config.read("andaike.ini")
-
-    threads = []
-    for section in config.sections():
+    try:
+        config = ConfigParser.SafeConfigParser()
+        config.read("andaike.ini")
+        print u'加载配置文件完毕'.encode('utf-8')
         
-        threads.append(
-            gevent.spawn(
-                ProxyVote(
-                    section.decode('utf-8'), 
-                    int(config.get(section, "total_count")),
-                    config.get(section, "vote_url").replace('TIME', str(random.randrange(1000000, 9999999))),
-                    config.get(section, "proxy_urls").split('|'),
-                    config.get(section, "success_flag"),
-                    int(config.get(section, "total_hour"))
-                ).start
+        threads = []
+        for section in config.sections():
+            
+            threads.append(
+                gevent.spawn(
+                    ProxyVote(
+                        section.decode('utf-8'), 
+                        int(config.get(section, "total_count")),
+                        config.get(section, "vote_url").replace('TIME', str(random.randrange(1000000, 9999999))),
+                        config.get(section, "proxy_urls").split('|'),
+                        config.get(section, "success_flag"),
+                        int(config.get(section, "total_hour"))
+                    ).start
+                )
             )
-        )
-    
-    gevent.joinall(threads)
+        
+        gevent.joinall(threads)
+        
+    except Exception, e:
+        import traceback
+        traceback.print_exc()
     
     
     
