@@ -147,7 +147,7 @@ class ProxyVote(object):
         gevent.sleep(random.randint(10, 20))
         # 循环开始投票
         while (datetime.datetime.now() - self.start_time).total_seconds() < self.total_hour*3600:
-            time.sleep(0.5)
+            gevent.sleep(0.5)
             if self.success < self.target_count:
                 self.vote()
             else:
@@ -167,7 +167,12 @@ if __name__ == "__main__":
     print u'开始...'.encode('utf-8')
 
     config = ConfigParser.SafeConfigParser()
-    config.read("andaike.ini")
+    
+    try:
+        config.read("andaike.ini")
+    except Exception, e:
+        print e
+        config.read("/var/www/ProxyVote/andaike.ini")
         
     threads = []
     for section in config.sections():
