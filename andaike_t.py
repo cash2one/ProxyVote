@@ -193,7 +193,7 @@ if __name__ == "__main__":
     except Exception, e:
         import traceback
         print e
-        traceback.print_exc(file=open('/var/www/ProxyVote/log.txt','w+'))
+        traceback.print_exc(file=open('/var/www/ProxyVote/log.txt','w'))
     
     
     
