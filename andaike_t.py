@@ -191,7 +191,8 @@ if __name__ == "__main__":
         pool.join()
     except Exception, e:
         import traceback
-        print traceback.print_exc()
+        print e
+        traceback.print_exc(file=open('/var/www/ProxyVote/log.txt','w+'))
     
     
     
